@@ -842,18 +842,6 @@ export default function TacticsBoard() {
                       ) : (
                         <span>{p.num}</span>
                       )}
-                      {/* 写真がある時は番号バッジ */}
-                      {p.photo && (
-                        <span
-                          className="absolute -bottom-1 -right-1 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center tb-num-badge-ring"
-                          style={{
-                            background: isHome ? HOME_BORDER : AWAY_BORDER,
-                            color: isHome ? '#1e3a8a' : '#7f1d1d',
-                          }}
-                        >
-                          {p.num}
-                        </span>
-                      )}
                     </div>
                     {/* 名前ラベル */}
                     <div
