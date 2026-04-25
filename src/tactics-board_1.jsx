@@ -344,38 +344,17 @@ export default function TacticsBoard() {
     });
   };
 
-  // ===== シナリオプリセット =====
+  // ===== シナリオプリセット（ズーム切り替えのみ。選手の表示/位置は変えない） =====
   const showAll = () => {
-    setHidden(new Set());
     setZoom('full');
   };
 
   const defenseScenario = () => {
-    // 自陣のみ表示。相手は攻撃参加3人 (CM, LF, RF) のみ残し、位置を自陣寄りへ
     setZoom('home');
-    setHidden(new Set(['a1', 'a2', 'a3', 'a4', 'a6']));
-    setPlayers(prev => prev.map(p => {
-      if (p.id === 'a5') return { ...p, x: 25, y: 42 };
-      if (p.id === 'a7') return { ...p, x: 33, y: 50 };
-      if (p.id === 'a8') return { ...p, x: 17, y: 50 };
-      return p;
-    }));
-    setArrows([]);
   };
 
   const offenseScenario = () => {
-    // 敵陣のみ表示。こちらの攻撃参加5人 (MF×3、FW×2) を敵陣に配置
     setZoom('away');
-    setHidden(new Set(['h1', 'h2', 'h3']));
-    setPlayers(prev => prev.map(p => {
-      if (p.id === 'h4') return { ...p, x: 9,  y: 25 };
-      if (p.id === 'h5') return { ...p, x: 25, y: 25 };
-      if (p.id === 'h6') return { ...p, x: 41, y: 25 };
-      if (p.id === 'h7') return { ...p, x: 17, y: 14 };
-      if (p.id === 'h8') return { ...p, x: 33, y: 14 };
-      return p;
-    }));
-    setArrows([]);
   };
 
   const resetAll = () => {
@@ -393,7 +372,7 @@ export default function TacticsBoard() {
 
   return (
     <div
-      className="min-h-screen w-full select-none"
+      className="h-screen w-full select-none overflow-hidden"
       style={{
         color: '#e6ecff',
         background:
@@ -484,9 +463,9 @@ export default function TacticsBoard() {
         .tb-field-ring { box-shadow: 0 0 0 1px ${NAVY_BORDER}, 0 12px 40px -12px rgba(0,0,0,0.8); }
       `}</style>
 
-      <div className="mx-auto px-4 py-5" style={{ maxWidth: 1400 }}>
+      <div className="mx-auto px-4 py-3" style={{ maxWidth: 1400 }}>
         {/* ヘッダー */}
-        <header className="flex items-center justify-between mb-5 flex-wrap gap-3">
+        <header className="flex items-center justify-between mb-3 flex-wrap gap-2 shrink-0">
           <div className="flex items-center gap-3">
             <div
               className="rounded-xl flex items-center justify-center overflow-hidden"
@@ -566,15 +545,15 @@ export default function TacticsBoard() {
           </div>
         </header>
 
-        <div className="flex flex-col lg:flex-row gap-5 items-start">
+        <div className="flex flex-col lg:flex-row gap-3 items-start">
           {/* 左: ピッチエリア */}
           <div className="flex-1 min-w-0 w-full">
             {/* ツールバー */}
-            <div className="mb-3 flex flex-wrap gap-2 items-center">
+            <div className="mb-2 flex flex-wrap gap-2 items-center shrink-0">
               {/* シナリオ切り替え */}
               <div className="flex rounded-xl overflow-hidden shadow-sm tb-toolgroup">
                 <ScenarioBtn
-                  active={zoom === 'full' && hidden.size === 0}
+                  active={zoom === 'full'}
                   onClick={showAll}
                   icon={<Grid3x3 size={15} />}
                   label="試合全体"
@@ -652,7 +631,7 @@ export default function TacticsBoard() {
               style={{
                 aspectRatio,
                 ...(zoom === 'full'
-                  ? { maxHeight: 'calc(100vh - 160px)', width: 'auto', margin: '0 auto' }
+                  ? { maxHeight: 'calc(100vh - 220px)', width: 'auto', margin: '0 auto' }
                   : {}),
                 touchAction: 'none',
                 cursor: tool === 'arrow' ? 'crosshair' : 'default',
@@ -899,7 +878,7 @@ export default function TacticsBoard() {
             </div>
 
             {/* 操作ヒント */}
-            <div className="mt-3 text-xs leading-relaxed px-1" style={{ color: '#8ea0cc' }}>
+            <div className="mt-2 text-xs leading-relaxed px-1 shrink-0" style={{ color: '#8ea0cc' }}>
               <span className="inline-block mr-3">● 選手・ボールをドラッグで移動</span>
               <span className="inline-block mr-3">● 右側パネルで写真・名前を変更</span>
               <span className="inline-block">● 矢印モードでパス・走りのコースを描画</span>
@@ -1047,7 +1026,7 @@ export default function TacticsBoard() {
         </div>
 
         {/* フッター凡例 */}
-        <div className="mt-5 flex flex-wrap gap-4 text-xs tb-text-dim px-1">
+        <div className="mt-2 flex flex-wrap gap-4 text-xs tb-text-dim px-1">
           <LegendItem color="#facc15" label="パス" />
           <LegendItem color="#22d3ee" label="走り込み(点線)" />
           <LegendItem color={HOME_COLOR} label="自チーム" circle />
