@@ -372,13 +372,16 @@ export default function TacticsBoard() {
 
   return (
     <div
-      className="h-screen w-full select-none overflow-hidden"
+      className="min-h-screen lg:h-screen w-full select-none lg:overflow-hidden overflow-y-auto"
       style={{
         color: '#e6ecff',
         background:
           `radial-gradient(1200px 600px at 15% -10%, ${NAVY_PANEL} 0%, ${NAVY_BG} 45%, ${NAVY_DEEP} 100%)`,
         fontFamily:
           '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif',
+        overflowX: 'hidden',
+        overscrollBehaviorX: 'none',
+        position: 'relative',
       }}
     >
       {/* 隠し file input */}
@@ -463,67 +466,63 @@ export default function TacticsBoard() {
         .tb-field-ring { box-shadow: 0 0 0 1px ${NAVY_BORDER}, 0 12px 40px -12px rgba(0,0,0,0.8); }
       `}</style>
 
-      <div className="mx-auto px-4 py-3" style={{ maxWidth: 1400 }}>
+      <div className="mx-auto px-4 py-3 overflow-x-hidden" style={{ maxWidth: 1400 }}>
         {/* ヘッダー */}
         <header className="flex items-center justify-between mb-3 flex-wrap gap-2 shrink-0">
-          <div className="flex items-center gap-3">
-            <div
-              className="rounded-xl flex items-center justify-center overflow-hidden"
-              style={{
-                width: 52, height: 52,
-                background: NAVY_PANEL,
-                border: `1.5px solid ${GOLD}`,
-                boxShadow: `0 6px 20px -6px ${GOLD}55, inset 0 0 0 1px ${NAVY_SOFT}`,
-              }}
-            >
-              <img
-                src={CLUB_LOGO_SRC}
-                alt="FC TRIANELLO Machida"
-                draggable={false}
-                className="w-full h-full object-contain"
-                style={{ padding: 2 }}
-              />
-            </div>
-            <div>
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
+            <img
+              src={CLUB_LOGO_SRC}
+              alt="FC TRIANELLO Machida"
+              draggable={false}
+              className="object-contain shrink-0 w-8 h-8 sm:w-[44px] sm:h-[44px]"
+              style={{ mixBlendMode: 'screen' }}
+            />
+            <div className="min-w-0">
               <h1
-                className="text-xl sm:text-2xl font-black tracking-tight leading-none"
+                className="text-sm sm:text-2xl font-black tracking-tight leading-none truncate"
                 style={{ color: GOLD_LIGHT }}
               >
                 FC TRIANELLO Machida
               </h1>
-              <p className="text-xs mt-1 tracking-wide" style={{ color: '#a3b3d9' }}>
-                8人制 作戦ボード — ドラッグで配置・保存で振り返り
+              <p className="text-[9px] sm:text-xs mt-0.5 tracking-wide truncate" style={{ color: '#a3b3d9' }}>
+                8人制 作戦ボード
               </p>
             </div>
+            <img
+              src={`${import.meta.env.BASE_URL}mascot.png`}
+              alt="マスコット"
+              draggable={false}
+              className="object-contain shrink-0 h-9 sm:h-12"
+            />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={openSaveDialog}
-              className="px-3 py-2 rounded-lg text-sm font-bold active:scale-95 transition flex items-center gap-2"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold active:scale-95 transition flex items-center gap-1 sm:gap-2"
               style={{
                 background: `linear-gradient(180deg, ${GOLD_LIGHT} 0%, ${GOLD} 100%)`,
                 color: NAVY_DEEP,
                 boxShadow: `0 4px 14px -4px ${GOLD}80`,
               }}
             >
-              <Save size={15} /> 保存
+              <Save size={14} /> 保存
             </button>
             <button
               onClick={() => setShowLibrary(true)}
-              className="px-3 py-2 rounded-lg text-sm font-bold active:scale-95 transition flex items-center gap-2"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold active:scale-95 transition flex items-center gap-1 sm:gap-2"
               style={{
                 background: NAVY_PANEL,
                 border: `1px solid ${NAVY_BORDER}`,
                 color: GOLD_LIGHT,
               }}
             >
-              <FolderOpen size={15} /> 履歴
+              <FolderOpen size={14} /> 履歴
               {saves.length > 0 && (
                 <span
-                  className="inline-flex items-center justify-center text-xs font-black rounded-full"
+                  className="inline-flex items-center justify-center text-[10px] sm:text-xs font-black rounded-full"
                   style={{
-                    minWidth: 20, height: 20, padding: '0 6px',
+                    minWidth: 18, height: 18, padding: '0 4px',
                     background: GOLD, color: NAVY_DEEP,
                   }}
                 >
@@ -533,14 +532,14 @@ export default function TacticsBoard() {
             </button>
             <button
               onClick={resetAll}
-              className="px-3 py-2 rounded-lg text-sm font-bold active:scale-95 transition flex items-center gap-2"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-bold active:scale-95 transition flex items-center gap-1 sm:gap-2"
               style={{
                 background: 'transparent',
                 border: `1px solid ${NAVY_BORDER}`,
                 color: '#a3b3d9',
               }}
             >
-              <RotateCcw size={16} /> リセット
+              <RotateCcw size={14} /> リセット
             </button>
           </div>
         </header>
@@ -800,12 +799,12 @@ export default function TacticsBoard() {
                     <div
                       className="relative rounded-full flex items-center justify-center font-black overflow-hidden"
                       style={{
-                        width: zoom === 'full' ? 32 : 56,
-                        height: zoom === 'full' ? 32 : 56,
+                        width: zoom === 'full' ? 'min(32px, 7vw)' : 'min(56px, 10vw)',
+                        height: zoom === 'full' ? 'min(32px, 7vw)' : 'min(56px, 10vw)',
                         background: isHome ? HOME_COLOR : AWAY_COLOR,
                         border: `2.5px solid ${isHome ? HOME_BORDER : AWAY_BORDER}`,
                         color: 'white',
-                        fontSize: zoom === 'full' ? 11 : 20,
+                        fontSize: zoom === 'full' ? 'min(11px, 2.5vw)' : 'min(20px, 3.5vw)',
                         boxShadow: isSelected
                           ? `0 0 0 3px ${isHome ? GOLD_LIGHT : '#fca5a5'}, 0 8px 20px rgba(0,0,0,0.5)`
                           : '0 4px 12px rgba(0,0,0,0.45)',
@@ -826,7 +825,7 @@ export default function TacticsBoard() {
                     <div
                       className={`${zoom === 'full' ? 'mt-0.5 px-1 py-0' : 'mt-1 px-1.5 py-0.5'} rounded font-bold whitespace-nowrap`}
                       style={{
-                        fontSize: zoom === 'full' ? 9 : 12,
+                        fontSize: zoom === 'full' ? 'min(9px, 2vw)' : 'min(12px, 2.8vw)',
                         background: `${NAVY_DEEP}d9`,
                         color: 'white',
                         letterSpacing: '0.02em',
@@ -857,7 +856,7 @@ export default function TacticsBoard() {
                     filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.55))',
                   }}
                 >
-                  <SoccerBall size={zoom === 'full' ? 20 : 36} />
+                  <SoccerBall size={zoom === 'full' ? 20 : Math.min(36, window.innerWidth * 0.07)} />
                 </div>
               )}
 
